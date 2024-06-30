@@ -70,11 +70,9 @@ local EstateAgentBlips = function()
         if agent.showblip then
             local AgentBlip = BlipAddForCoords(1664425300, agent.coords)
             local blipSprite = joaat(Config.Blip.blipSprite)
-			
             SetBlipSprite(AgentBlip, blipSprite, true)
             SetBlipScale(AgentBlip, Config.Blip.blipScale)
             SetBlipName(AgentBlip, Config.Blip.blipName)
-			
             createdEntries[#createdEntries + 1] = {type = "BLIP", handle = AgentBlip}
         end
     end
@@ -136,7 +134,7 @@ end)
 CreateThread(function()
     while true do
         SetHouseBlips()
-		EstateAgentBlips()
+        EstateAgentBlips()
         Wait(60000) -- every min
     end       
 end)
@@ -331,41 +329,41 @@ RegisterNetEvent('rex-houses:client:sellmenu', function(data)
             icon = "fas fa-home"
         }
     }
-	
-    RSGCore.Functions.TriggerCallback('rex-houses:server:GetOwnedHouseInfo', function(cb)
-	
-		if cb == 'nohouse' then
-			RSGCore.Functions.Notify(Lang:t('sellmenu.sell_nohouse'), 'error')
-		else
-			for i = 1, #cb do
-				local house = cb[i]
-				local agent = house.agent
-				local houseid = house.houseid
-				local owned = house.owned
-				local sellprice = (house.price * Config.SellBack)
 
-				if agent == data.agentlocation and owned == 1 then
-					sellContextOptions[#sellContextOptions + 1] = {
-						title = Lang:t(('property.')..houseid),
-						icon = "fas fa-home",
-						description = Lang:t('sellmenu.sell_price')..sellprice,
-						onSelect = function()
-							TriggerServerEvent('rex-houses:server:sellhouse', {
-								house = houseid,
-								price = sellprice,
-								blip = HouseBlip
-							})
-						end
-					}
-				end
-			end
-		lib.registerContext({
-			id = "context_sell_house_Id",
-			title = Lang:t('sellmenu.sell_house'),
-			options = sellContextOptions
-		})
-		lib.showContext("context_sell_house_Id")
-		end
+    RSGCore.Functions.TriggerCallback('rex-houses:server:GetOwnedHouseInfo', function(cb)
+
+        if cb == 'nohouse' then
+            RSGCore.Functions.Notify(Lang:t('sellmenu.sell_nohouse'), 'error')
+        else
+            for i = 1, #cb do
+                local house = cb[i]
+                local agent = house.agent
+                local houseid = house.houseid
+                local owned = house.owned
+                local sellprice = (house.price * Config.SellBack)
+
+                if agent == data.agentlocation and owned == 1 then
+                    sellContextOptions[#sellContextOptions + 1] = {
+                        title = Lang:t(('property.')..houseid),
+                        icon = "fas fa-home",
+                        description = Lang:t('sellmenu.sell_price')..sellprice,
+                        onSelect = function()
+                            TriggerServerEvent('rex-houses:server:sellhouse', {
+                                house = houseid,
+                                price = sellprice,
+                                blip = HouseBlip
+                            })
+                        end
+                    }
+                end
+            end
+        lib.registerContext({
+            id = "context_sell_house_Id",
+            title = Lang:t('sellmenu.sell_house'),
+            options = sellContextOptions
+        })
+        lib.showContext("context_sell_house_Id")
+        end
     end)
 end)
 

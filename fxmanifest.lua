@@ -4,7 +4,7 @@ game 'rdr3'
 lua54 'yes'
 
 description 'rex-houses'
-version '1.0.0'
+version '1.0.1'
 
 client_scripts {
     'client/client.lua',
