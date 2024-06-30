@@ -86,7 +86,7 @@ end)
 local SetHouseBlips = function()
 
     for i = 1, #createdEntries do
-        if createdEntries[i].type == "BLIP" then
+        if createdEntries[i].type == "BLIP" and createdEntries[i].handle == "HouseBlip" then
             RemoveBlip(createdEntries[i].handle)
         end
     end
