@@ -63,22 +63,22 @@ end
 
 ---------------------------------------
 -- real estate agent blips
----------------------------------------
- CreateThread(function()
+-----------------------------------------
+local EstateAgentBlips = function()
     for i = 1, #Config.EstateAgents do
         local agent = Config.EstateAgents[i]
         if agent.showblip then
             local AgentBlip = BlipAddForCoords(1664425300, agent.coords)
             local blipSprite = joaat(Config.Blip.blipSprite)
-
+			
             SetBlipSprite(AgentBlip, blipSprite, true)
             SetBlipScale(AgentBlip, Config.Blip.blipScale)
             SetBlipName(AgentBlip, Config.Blip.blipName)
-
+			
             createdEntries[#createdEntries + 1] = {type = "BLIP", handle = AgentBlip}
         end
     end
-end)
+end
 
 -----------------------------------------------------------------------
 -- house my house blip
@@ -86,7 +86,7 @@ end)
 local SetHouseBlips = function()
 
     for i = 1, #createdEntries do
-        if createdEntries[i].type == "BLIP" and createdEntries[i].handle == "HouseBlip" then
+        if createdEntries[i].type == "BLIP" then
             RemoveBlip(createdEntries[i].handle)
         end
     end
@@ -136,6 +136,7 @@ end)
 CreateThread(function()
     while true do
         SetHouseBlips()
+		EstateAgentBlips()
         Wait(60000) -- every min
     end       
 end)
