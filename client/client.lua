@@ -330,38 +330,41 @@ RegisterNetEvent('rex-houses:client:sellmenu', function(data)
             icon = "fas fa-home"
         }
     }
-
+	
     RSGCore.Functions.TriggerCallback('rex-houses:server:GetOwnedHouseInfo', function(cb)
-        for i = 1, #cb do
-            local house = cb[i]
-            local agent = house.agent
-            local houseid = house.houseid
-            local owned = house.owned
-            local sellprice = (house.price * Config.SellBack)
+	
+		if cb == 'nohouse' then
+			RSGCore.Functions.Notify(Lang:t('sellmenu.sell_nohouse'), 'error')
+		else
+			for i = 1, #cb do
+				local house = cb[i]
+				local agent = house.agent
+				local houseid = house.houseid
+				local owned = house.owned
+				local sellprice = (house.price * Config.SellBack)
 
-            if agent == data.agentlocation and owned == 1 then
-                sellContextOptions[#sellContextOptions + 1] = {
-                    title = Lang:t(('property.')..houseid),
-                    icon = "fas fa-home",
-                    description = Lang:t('sellmenu.sell_price')..sellprice,
-                    onSelect = function()
-                        TriggerServerEvent('rex-houses:server:sellhouse', {
-                            house = houseid,
-                            price = sellprice,
-                            blip = HouseBlip
-                        })
-                    end
-                }
-            end
-        end
-
-        lib.registerContext({
-            id = "context_sell_house_Id",
-            title = Lang:t('sellmenu.sell_house'),
-            options = sellContextOptions
-        })
-
-        lib.showContext("context_sell_house_Id")
+				if agent == data.agentlocation and owned == 1 then
+					sellContextOptions[#sellContextOptions + 1] = {
+						title = Lang:t(('property.')..houseid),
+						icon = "fas fa-home",
+						description = Lang:t('sellmenu.sell_price')..sellprice,
+						onSelect = function()
+							TriggerServerEvent('rex-houses:server:sellhouse', {
+								house = houseid,
+								price = sellprice,
+								blip = HouseBlip
+							})
+						end
+					}
+				end
+			end
+		lib.registerContext({
+			id = "context_sell_house_Id",
+			title = Lang:t('sellmenu.sell_house'),
+			options = sellContextOptions
+		})
+		lib.showContext("context_sell_house_Id")
+		end
     end)
 end)
 
