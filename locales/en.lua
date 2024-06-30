@@ -24,7 +24,7 @@ local Translations = {
 	sellmenu = {
 		sell_house = 'Sell House',
 		sell_price = 'Sell Price $',
-			
+		sell_nohouse = 'You are not owning a house!',
 		locked = 'Locked!',
 	},
 	
