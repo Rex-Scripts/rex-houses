@@ -70,10 +70,10 @@ Config.EstateAgents = {
     {    --saint denis
         name      = Lang:t('client.estate_agent'),
         prompt    = 'stdenisestateagent',
-        coords    = vector3(2596.5463, -1299.845, 52.817153),
+        coords    = vector3(2598.15, -1301.83, 52.82),
         location  = 'lemoyne', -- state
         npcmodel  = `A_M_O_SDUpperClass_01`,
-        npccoords = vector4(2596.5463, -1299.845, 52.817153, 304.04638),
+        npccoords = vector4(2598.15, -1301.83, 52.82, 324.75),
         showblip  = true
     }
 }
