@@ -111,7 +111,7 @@ local SetHouseBlips = function()
                     local HouseBlip = BlipAddForCoords(1664425300, house.blipcoords)
                     SetBlipSprite(HouseBlip, joaat('blip_proc_home_locked'), true)
                     SetBlipScale(HouseBlip, 0.4)
-                    SetBlipName(HouseBlip, 'My House')
+                    SetBlipName(HouseBlip, Lang:t('client.home_sweet_home'))
                     BlipAddModifier(HouseBlip, joaat('BLIP_MODIFIER_MP_COLOR_8'))
                     createdEntries[#createdEntries + 1] = {type = "BLIP", handle = HouseBlip}
                 end
