@@ -709,7 +709,7 @@ RegisterNetEvent('rex-houses:client:removeguest', function(data)
 
         if citizenid then
             local houseid = data.houseid
-            TriggerServerEvent('rex-houses:server:removeguest', citizenid, houseid)
+            TriggerServerEvent('rex-houses:server:removeguest', houseid, citizenid)
         end
     end)
 end)
