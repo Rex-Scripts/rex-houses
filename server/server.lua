@@ -24,8 +24,8 @@ RSGCore.Functions.CreateCallback('rex-houses:server:GetHouseInfo', function(sour
     local houseinfo = MySQL.query.await('SELECT * FROM rex_houses', {})
 
     if houseinfo[1] == nil then 
-		return
-	end
+        return
+    end
 
     cb(houseinfo)
 end)
@@ -81,12 +81,18 @@ RegisterServerEvent('rex-houses:server:buyhouse', function(data)
     Player.Functions.RemoveMoney('cash', data.price)
     RSGCore.Functions.Notify(src, Lang:t('server.purchased'), 'success')
     TriggerClientEvent('rex-houses:client:BlipsOnSpawn', src, data.blip)
+    TriggerEvent('rsg-log:server:CreateLog', 'rexhouses', 'House Purchased', 'green', fullname..' purchased '..data.house..' for $'..data.price)
+
 end)
 
 -- sell house
 RegisterServerEvent('rex-houses:server:sellhouse', function(data)
     local src = source
     local Player = RSGCore.Functions.GetPlayer(src)
+    local citizenid = Player.PlayerData.citizenid
+    local firstname = Player.PlayerData.charinfo.firstname
+    local lastname = Player.PlayerData.charinfo.lastname
+    local fullname = (firstname..' '..lastname)
 
     MySQL.update('UPDATE rex_houses SET citizenid = 0, fullname = 0, credit = 0, owned = 0 WHERE houseid = ?', {data.house})
     MySQL.update('UPDATE rex_doors SET doorstate = 1 WHERE houseid = ?', {data.house})
@@ -94,6 +100,8 @@ RegisterServerEvent('rex-houses:server:sellhouse', function(data)
     Player.Functions.AddMoney('cash', data.price, "house-sale")
     RSGCore.Functions.Notify(src, Lang:t('server.sold'), 'success')
     TriggerClientEvent('rex-houses:client:BlipsOnSpawn', src, data.blip)
+    TriggerEvent('rsg-log:server:CreateLog', 'rexhouses', 'House Sold', 'red', fullname..' sold '..data.house..' for $'..data.price)
+
 end)
 
 -- add house credit
@@ -245,7 +253,7 @@ BillingInterval = function()
             if Config.PurgeStorage then
                 MySQL.update('DELETE FROM stashitems WHERE stash = ?', {row.houseid})
             end
-            TriggerEvent('rsg-log:server:CreateLog', 'estateagent', 'House Lost', 'red', row.fullname..' house '..row.houseid..' has been lost!')
+            TriggerEvent('rsg-log:server:CreateLog', 'rexhouses', 'House Lost', 'red', row.fullname..' house '..row.houseid..' has been lost due to non payment of tax!')
         end
 
         if row.agent == 'newhanover' then

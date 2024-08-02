@@ -76,6 +76,12 @@
     },
 ```
 
+# webhook config
+- add webhook to rsg-essentials/server/logs.lua
+```
+    ['rexhouses'] = '<add your webhook url>',
+```
+
 # sql
 ```sql
 CREATE TABLE IF NOT EXISTS `rex_houses` (
