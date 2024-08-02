@@ -89,6 +89,7 @@ RegisterServerEvent('rex-houses:server:sellhouse', function(data)
     local Player = RSGCore.Functions.GetPlayer(src)
 
     MySQL.update('UPDATE rex_houses SET citizenid = 0, fullname = 0, credit = 0, owned = 0 WHERE houseid = ?', {data.house})
+    MySQL.update('UPDATE rex_doors SET doorstate = 1 WHERE houseid = ?', {data.house})
     MySQL.update('DELETE FROM rex_housekeys WHERE houseid = ?', {data.house})
     Player.Functions.AddMoney('cash', data.price, "house-sale")
     RSGCore.Functions.Notify(src, Lang:t('server.sold'), 'success')
